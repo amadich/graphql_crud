@@ -1,0 +1,28 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "GraphQL_server_setup",
+  "main": "server.js",
+  "author": "amadich",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "scripts": {
+    "start": "nodemon server.js",
+    "build": "node esbuild.mjs",
+    "dev": "nodemon dist/server.js"
+  },
+  "dependencies": {
+    "@graphql-tools/schema": "^10.0.18",
+    "apollo-server": "^3.13.0",
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.4.7",
+    "graphql": "^16.10.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.10.1",
+    "nodemon": "^3.1.9"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0"
+  }
+}
