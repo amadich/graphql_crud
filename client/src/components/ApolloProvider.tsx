@@ -1,4 +1,4 @@
-"use client"; // Ensure this runs in the client environment
+"use client";
 
 import { ApolloProvider } from "@apollo/client";
 import client from "../lib/apolloClient";
