@@ -25,7 +25,7 @@ export const userTypeDefs =  gql`
    }
 
    type Mutation {
-      createUser(registerInput: RegisterInput!): AuthPayload!
+      createUser(registerInput: RegisterInput!): User!
    }
 
 `;

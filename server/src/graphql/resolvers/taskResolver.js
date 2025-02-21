@@ -23,7 +23,7 @@ export const taskResolver = {
          return await Task.findByIdAndUpdate(id, taskInput, { new: true });
       },
       deleteTask: async (_, { id }) => {
-         return await Task.findByIdAndDelete(id);
+         return await TaskService.deleteTask(id);
       },
    },
 

@@ -1,16 +1,21 @@
-import mongoose from 'mongoose';
+import { Sequelize } from 'sequelize';
 
-const connectDB = async () => {
-   try {
-      await mongoose.connect('mongodb://localhost:27017/ggraph', {
-         useNewUrlParser: true,
-         useUnifiedTopology: true,
-      });
-      console.log('MongoDB connected successfully');
-   } catch (error) {
-      console.error('MongoDB connection error:', error);
-      process.exit(1);
-   }
+// Setup PostgreSQL connection
+const sequelize = new Sequelize('postgres://root:root@localhost:5432/backpack', {
+  dialect: 'postgres',
+  logging: false,  // Disable SQL logging (optional)
+});
+
+// Test the connection
+const testConnection = async () => {
+  try {
+    await sequelize.authenticate();
+    console.log('Connection to PostgreSQL has been established successfully.');
+  } catch (error) {
+    console.error('Unable to connect to the database:', error);
+  }
 };
 
-export { connectDB };
+testConnection();
+
+export default sequelize;

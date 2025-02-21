@@ -1,17 +1,31 @@
 "use client";
 
 import React from 'react';
-import { useQuery } from '@apollo/client';
+import {useQuery, useMutation } from '@apollo/client';
 
-// GraphQL Query to fetch all tasks
-import { GET_ALL_TASKS_QUERY } from '@/app/gql/gql_Tasks';
+import { GET_ALL_TASKS_QUERY, DELETE_TASK_MUTATION } from '@/app/gql/gql_Tasks';
 
-
-export default function showTask() {
-  const { data, loading, error } = useQuery(GET_ALL_TASKS_QUERY);
+export default function AllTasks() {
+  const { data, loading, error, refetch } = useQuery(GET_ALL_TASKS_QUERY);
+  const [deleteTask] = useMutation(DELETE_TASK_MUTATION);
 
   if (loading) return <p className="text-center">Loading...</p>;
   if (error) return <p className="text-center text-red-500">Error: {error.message}</p>;
+
+  // Handle deleting a task
+  const handleDelete = async (taskId : any) => {
+    try {
+      await deleteTask({
+        variables: { deleteTaskId: taskId },
+        // Refetch the tasks after deleting to update the UI
+        onCompleted: () => {
+          refetch();
+        },
+      });
+    } catch (err) {
+      console.error('Error deleting task:', err);
+    }
+  };
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
@@ -29,7 +43,7 @@ export default function showTask() {
             </tr>
           </thead>
           <tbody>
-            {data.getAllTasks.map((task: any) => (
+            {data.getAllTasks.map((task : any) => (
               <tr key={task._id} className="border-t border-gray-200 hover:bg-gray-50">
                 <td className="py-4 px-6 text-gray-900">{task.title}</td>
                 <td className="py-4 px-6 text-gray-700">{task.description}</td>
@@ -44,7 +58,12 @@ export default function showTask() {
                 </td>
                 <td className="py-4 px-6">
                   <button className="text-blue-500 hover:text-blue-700">Edit</button>
-                  <button className="ml-4 text-red-500 hover:text-red-700">Delete</button>
+                  <button
+                    onClick={() => handleDelete(task._id)}
+                    className="ml-4 text-red-500 hover:text-red-700"
+                  >
+                    Delete
+                  </button>
                 </td>
               </tr>
             ))}
